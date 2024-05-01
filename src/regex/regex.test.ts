@@ -96,4 +96,21 @@ describe('regex', () => {
       });
     });
   });
+
+  describe('reais', () => {
+    test('Extrair nomes de funcoes de códigos base.', () => {
+      const snippetCode =
+        "export const someForm = 'square';\nexport function draw(ctx, length, x, y, color)\nctx.fillStyle = color;ctx.fillRect(x, y, length, length);return {length: length,x: x,y: y,color: color,};";
+      let regexAllText =
+        /(?:export|module.exports =) (?:const|function) (\w+)/g;
+
+      let match;
+      const values = [];
+      while ((match = regexAllText.exec(snippetCode))) {
+        values.push(match[1]);
+      }
+
+      expect(values).toStrictEqual(['someForm', 'draw']);
+    });
+  });
 });
